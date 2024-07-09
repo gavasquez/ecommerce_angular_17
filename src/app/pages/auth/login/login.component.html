@@ -32,11 +32,11 @@
               <div class="tp-login-wrapper">
                  <div class="tp-login-top text-center mb-30">
                     <h3 class="tp-login-title">Login to Shofy.</h3>
-                    <p>Don’t have an account? <span><a href="register.html">Create a free account</a></span></p>
+                    <p>Don’t have an account? <span><a routerLink="/register" routerLinkActive="router-link-active" >Create a free account</a></span></p>
                  </div>
                  <div class="tp-login-option">
                   <form [formGroup]="formulario" (submit)="login()">
-                    <div class="tp-login-social mb-10 d-flex flex-wrap align-items-center justify-content-center">
+                    <!-- <div class="tp-login-social mb-10 d-flex flex-wrap align-items-center justify-content-center">
                       <div class="tp-login-option-item has-google">
                          <a href="#">
                             <img src="assets/img/icon/login/google.svg" alt="">
@@ -53,7 +53,7 @@
                             <img class="apple" src="assets/img/icon/login/apple.svg" alt="">
                          </a>
                       </div>
-                   </div>
+                   </div> -->
                    <div class="tp-login-mail text-center mb-40">
                       <p>or Sign in with <a href="#">Email</a></p>
                    </div>
@@ -95,11 +95,12 @@
                    </div>
                    <div class="tp-login-suggetions d-sm-flex align-items-center justify-content-between mb-20">
                       <div class="tp-login-remeber">
-                         <input id="remeber" type="checkbox">
+                         <input id="remeber" type="checkbox" formControlName="remember" (click)="rememberMe">
+
                          <label for="remeber">Remember me</label>
                       </div>
                       <div class="tp-login-forgot">
-                         <a href="forgot.html">Forgot Password?</a>
+                         <a routerLink="/cambiar-credenciales" >Forgot Password?</a>
                       </div>
                    </div>
                    <div class="tp-login-bottom">

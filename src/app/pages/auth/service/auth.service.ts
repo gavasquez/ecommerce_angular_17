@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { afterNextRender, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, map, of } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { URL_SERVICIOS } from '../../../config/config';
 
 @Injectable({
@@ -16,7 +16,9 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
   ){
-    this.initAuth();
+    /* afterNextRender(()=>{
+      this.initAuth();
+    }); */
   }
 
   initAuth(){
@@ -30,15 +32,13 @@ export class AuthService {
 
     let URL= URL_SERVICIOS + "/auth/login_ecommerce";
 
-    return this.http.post(URL, {email, password, "type_user": "2"})
+    return this.http.post(URL, { email, password })
       .pipe(
         map((resp: any) => {
-          console.log(resp)
           const result = this.saveLocalStorage(resp);
           return result;
         }),
         catchError((error: any) => {
-          console.log(error);
           return of(error);
         })
       );
@@ -67,6 +67,29 @@ export class AuthService {
     setTimeout(() => {
       this.router.navigateByUrl("/login");
     }, 500);
+  }
+
+  verifiedAuth(data: { code_user: string }){
+    let URL = URL_SERVICIOS + "/auth/verified_auth";
+    return this.http.post(URL, data);
+  }
+
+
+
+  verifiedMail(data: { email: string }): Observable<{ message: number }>{
+    let URL = URL_SERVICIOS + "/auth/verified_email";
+    return this.http.post<{message: number}>(URL, data);
+  }
+
+  verifiedCode(data: { code: string }): Observable<{ message:number }>{
+    let URL = URL_SERVICIOS + "/auth/verified_code";
+    return this.http.post<{ message:number }>(URL, data);
+  }
+
+  verifiedNewPassword(data: { code: string, new_password: string }): Observable<{ message: number }>{
+    let URL = URL_SERVICIOS + "/auth/new_password";
+    return this.http.post<{ message: number }>(URL, data);
+
   }
 
 }

@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../service/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
+declare function password_show_toggle():any;
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ FormsModule ],
+  imports: [ CommonModule, FormsModule, RouterModule ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -23,7 +25,11 @@ export class RegisterComponent {
     private authService: AuthService,
     private router: Router,
     private toast: ToastrService
-  ){}
+  ){
+    setTimeout(() => {
+      password_show_toggle();
+    }, 50);
+  }
 
   register(){
     if(!this.name || !this.surname || !this.email || !this.password || !this.phone){
